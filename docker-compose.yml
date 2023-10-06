@@ -1,0 +1,108 @@
+version: '3'
+
+volumes:
+  postgresql_master_data:
+    name: postgresql_master_data
+
+services:
+  postgresql-master:
+      image: 'bitnami/postgresql:latest'
+      ports:
+        - '5432'
+      volumes:
+        - 'postgresql_master_data:/bitnami/postgresql'
+        # - ./pg_hba.conf:/bitnami/postgresql/conf/pg_hba.conf
+      environment:
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_USERNAME=django_user
+      - POSTGRESQL_PASSWORD=123456aA@
+      - POSTGRESQL_DATABASE=django_database
+      - POSTGRESQL_SYNCHRONOUS_COMMIT_MODE=on
+      - POSTGRESQL_NUM_SYNCHRONOUS_REPLICAS=1
+      networks:
+        - default
+      
+
+  postgresql-slave:
+    image: 'bitnami/postgresql:latest'
+    ports:
+      - '5432'
+    depends_on:
+      - postgresql-master
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_MASTER_HOST=postgresql-master
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
+      - POSTGRESQL_PASSWORD=123456aA@
+    networks:
+      - default
+
+  postgresql-slave2:
+    image: 'bitnami/postgresql:latest'
+    ports:
+      - '5432'
+    depends_on:
+      - postgresql-master
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_MASTER_HOST=postgresql-master
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
+      - POSTGRESQL_PASSWORD=123456aA@
+    networks:
+      - default
+
+  django:
+    build: .
+    volumes:
+      - /tmp:/tmp
+    links:
+      - "postgresql-master:postgresql-master"
+      - "postgresql-slave:postgresql-slave"
+      - "postgresql-slave2:postgresql-slave2"
+    environment:
+      - DB_HOST=postgresql-master
+      - DB_PORT=5432
+      - DB_NAME=django_database
+      - DB_USER=django_user
+      - DB_PASSWORD=123456aA@
+
+      - DB_HOST_SLAVE=postgresql-slave
+      - DB_PORT_SLAVE=5432
+      - DB_NAME_SLAVE=django_database
+      - DB_USER_SLAVE=django_user
+      - DB_PASSWORD_SLAVE=123456aA@
+
+      - DB_HOST_SLAVE2=postgresql-slave2
+      - DB_PORT_SLAVE2=5432
+      - DB_NAME_SLAVE2=django_database
+      - DB_USER_SLAVE2=django_user
+      - DB_PASSWORD_SLAVE2=123456aA@
+    env_file:
+      - .env
+    working_dir: /home/django
+    entrypoint: /entrypoint.sh
+    command: runserver
+    restart: always
+    depends_on:
+      - 'postgresql-master'
+      - 'postgresql-slave'
+      - 'postgresql-slave2'
+    ports:
+      - 8000:8000
+    networks:
+      - default
+
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
+
+
