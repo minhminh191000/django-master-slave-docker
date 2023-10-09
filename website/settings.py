@@ -28,11 +28,17 @@ DB_PORT = os.environ.get("DB_PORT")
 DB_NAME = os.environ.get("DB_NAME")
 
 
-# DB_HOST_SLAVE = os.environ.get("DB_HOST_SLAVE")
-# DB_PORT_SLAVE = os.environ.get("DB_PORT_SLAVE")
-# DB_NAME_SLAVE = os.environ.get("DB_NAME_SLAVE")
-# DB_USER_SLAVE = os.environ.get("DB_USER_SLAVE")
-# DB_PASSWORD_SLAVE = os.environ.get("DB_PASSWORD_SLAVE")
+DB_HOST_SLAVE1 = os.environ.get("DB_HOST_SLAVE1")
+DB_PORT_SLAVE1 = os.environ.get("DB_PORT_SLAVE1")
+DB_NAME_SLAVE1 = os.environ.get("DB_NAME_SLAVE1")
+DB_USER_SLAVE1 = os.environ.get("DB_USER_SLAVE1")
+DB_PASSWORD_SLAVE1 = os.environ.get("DB_PASSWORD_SLAVE1")
+
+DB_HOST_SLAVE2 = os.environ.get("DB_HOST_SLAVE2")
+DB_PORT_SLAVE2 = os.environ.get("DB_PORT_SLAVE2")
+DB_NAME_SLAVE2 = os.environ.get("DB_NAME_SLAVE2")
+DB_USER_SLAVE2 = os.environ.get("DB_USER_SLAVE2")
+DB_PASSWORD_SLAVE2 = os.environ.get("DB_PASSWORD_SLAVE2")
 
 
 
@@ -105,15 +111,25 @@ DATABASES = {
         'HOST': DB_HOST,
         'PORT': DB_PORT,
     },
-    # 'slave': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': DB_NAME_SLAVE,
-    #     'USER': DB_USER_SLAVE,
-    #     'PASSWORD': DB_PASSWORD_SLAVE,
-    #     'HOST': DB_HOST_SLAVE,
-    #     'PORT': DB_PORT_SLAVE,
-    # }
+    'slave1': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': DB_NAME_SLAVE1,
+        'USER': DB_USER_SLAVE1,
+        'PASSWORD': DB_PASSWORD_SLAVE1,
+        'HOST': DB_HOST_SLAVE1,
+        'PORT': DB_PORT_SLAVE1,
+    },
+    'slave2': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': DB_NAME_SLAVE2,
+        'USER': DB_USER_SLAVE2,
+        'PASSWORD': DB_PASSWORD_SLAVE2,
+        'HOST': DB_HOST_SLAVE2,
+        'PORT': DB_PORT_SLAVE2,
+    }
 }
+
+DATABASE_ROUTERS = ['website.routers.MasterSlaveRouter']
 
 
 # Password validation
