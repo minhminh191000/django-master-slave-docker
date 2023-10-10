@@ -2,3 +2,6 @@ wheel
 django
 psycopg2-binary
 python-dotenv
+Pillow
+django-cors-headers
+django-recaptcha

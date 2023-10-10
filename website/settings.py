@@ -43,7 +43,7 @@ DB_PASSWORD_SLAVE2 = os.environ.get("DB_PASSWORD_SLAVE2")
 
 
 TEMPLATES_DIR = [
-            os.path.join(BASE_DIR, "restaurant/template"),
+            os.path.join(BASE_DIR, "template"),
                  ]
 
 
@@ -52,6 +52,11 @@ TEMPLATES_DIR = [
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-1ty#%1tz7@6we$2kgw$d#80r)9o2ta)5$m4#66b%&wdv2f2wo1'
+
+# RECAPTCHA KEY:
+
+# RECAPTCHA_PUBLIC_KEY = '6Leo140oAAAAABRW8r2IwA9JsKVFYgqG6vNgi68K'
+# RECAPTCHA_PRIVATE_KEY = '6Leo140oAAAAAOGFhKc3i68v1EYevue-CtqKYQmO'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -68,12 +73,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    # 'captcha',
     'restaurant',
+    'users',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -172,10 +181,19 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "restaurant/statics")
+    os.path.join(BASE_DIR, "statics")
 ]
+
+# Media files (img , svg , png , etc)
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# custom user base 
+AUTH_USER_MODEL = 'users.UserModels'
+
