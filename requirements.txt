@@ -5,3 +5,4 @@ python-dotenv
 Pillow
 django-cors-headers
 django-recaptcha
+django-allauth==0.51.0

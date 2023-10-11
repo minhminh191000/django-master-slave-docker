@@ -77,6 +77,14 @@ INSTALLED_APPS = [
     # 'captcha',
     'restaurant',
     'users',
+    # 3rd party
+    "allauth", # new
+    "allauth.account", # new
+    "allauth.socialaccount", # new
+    # social providers
+    "allauth.socialaccount.providers.github", # new
+    'allauth.socialaccount.providers.google', # google provider
+    'allauth.socialaccount.providers.facebook', # new (facbook provider)
 ]
 
 MIDDLEWARE = [
@@ -197,3 +205,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # custom user base 
 AUTH_USER_MODEL = 'users.UserModels'
 
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+LOGIN_REDIRECT_URL = '/users/login'
+LOGOUT_REDIRECT_URL = '/users/login'

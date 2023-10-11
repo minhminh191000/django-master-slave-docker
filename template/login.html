@@ -5,6 +5,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
       {%load static%}
+	{% load socialaccount %}
+	{% providers_media_js %}
 <!--===============================================================================================-->	
 	<!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
 <!--===============================================================================================-->
@@ -29,24 +31,26 @@
 <!--===============================================================================================-->
 </head>
 <body>
+	<!-- {{ login_form }} -->
 	
 	<div class="limiter">
-		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+		<div class="container-login100" style="background-image: url('/static/images/bg-01.jpg');">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" enctype="multipart/form-data" method="post">
+					{% csrf_token %}
 					<span class="login100-form-title p-b-49">
 						Login
 					</span>
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
-						<span class="label-input100">Username</span>
-						<input class="input100" type="text" name="username" placeholder="Type your username">
+						<span class="label-input100">Email</span>
+						<input id="id_EMAIL" class="input100" type="email" name="EMAIL" placeholder="Type your username">
 						<span class="focus-input100" data-symbol="&#xf206;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Password is required">
 						<span class="label-input100">Password</span>
-						<input class="input100" type="password" name="pass" placeholder="Type your password">
+						<input id="id_PASSWORD" class="input100" type="password" name="PASSWORD" placeholder="Type your password">
 						<span class="focus-input100" data-symbol="&#xf190;"></span>
 					</div>
 					
@@ -59,7 +63,7 @@
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn">
+							<button class="login100-form-btn" type="submit">
 								Login
 							</button>
 						</div>
@@ -70,14 +74,13 @@
 							Or Sign Up Using
 						</span>
 					</div>
-
 					<div class="flex-c-m">
-						<a href="#" class="login100-social-item bg1">
+						<a href="{% provider_login_url 'facebook' method='js_sdk' %}" class="login100-social-item bg1">
 							<i class="fa fa-facebook"></i>
 						</a>
 
-						<a href="#" class="login100-social-item bg2">
-							<i class="fa fa-twitter"></i>
+						<a href="{% provider_login_url 'github' %}" class="login100-social-item bg2">
+							<i class="fa fa-github fa-fw"></i>
 						</a>
 
 						<a href="#" class="login100-social-item bg3">
