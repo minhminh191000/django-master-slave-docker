@@ -5,8 +5,6 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
       {%load static%}
-	{% load socialaccount %}
-	{% providers_media_js %}
 <!--===============================================================================================-->	
 	<!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
 <!--===============================================================================================-->
@@ -75,11 +73,11 @@
 						</span>
 					</div>
 					<div class="flex-c-m">
-						<a href="{% provider_login_url 'facebook' method='js_sdk' %}" class="login100-social-item bg1">
+						<a href="#" class="login100-social-item bg1">
 							<i class="fa fa-facebook"></i>
 						</a>
 
-						<a href="{% provider_login_url 'github' %}" class="login100-social-item bg2">
+						<a href="#" class="login100-social-item bg2">
 							<i class="fa fa-github fa-fw"></i>
 						</a>
 

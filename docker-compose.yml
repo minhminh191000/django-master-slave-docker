@@ -57,46 +57,46 @@ services:
     networks:
       - default
 
-  django:
-    build: .
-    volumes:
-      - /tmp:/tmp
-    links:
-      - "postgresql-master:postgresql-master"
-      - "postgresql-slave1:postgresql-slave1"
-      - "postgresql-slave2:postgresql-slave2"
-    environment:
-      - DB_HOST=postgresql-master
-      - DB_PORT=5432
-      - DB_NAME=django_database
-      - DB_USER=django_user
-      - DB_PASSWORD=123456aA@
+  # django:
+  #   build: .
+  #   volumes:
+  #     - /tmp:/tmp
+  #   links:
+  #     - "postgresql-master:postgresql-master"
+  #     - "postgresql-slave1:postgresql-slave1"
+  #     - "postgresql-slave2:postgresql-slave2"
+  #   environment:
+  #     - DB_HOST=postgresql-master
+  #     - DB_PORT=5432
+  #     - DB_NAME=django_database
+  #     - DB_USER=django_user
+  #     - DB_PASSWORD=123456aA@
 
-      - DB_HOST_SLAVE1=postgresql-slave1
-      - DB_PORT_SLAVE1=5432
-      - DB_NAME_SLAVE1=django_database
-      - DB_USER_SLAVE1=django_user
-      - DB_PASSWORD_SLAVE1=123456aA@
+  #     - DB_HOST_SLAVE1=postgresql-slave1
+  #     - DB_PORT_SLAVE1=5432
+  #     - DB_NAME_SLAVE1=django_database
+  #     - DB_USER_SLAVE1=django_user
+  #     - DB_PASSWORD_SLAVE1=123456aA@
 
-      - DB_HOST_SLAVE2=postgresql-slave2
-      - DB_PORT_SLAVE2=5432
-      - DB_NAME_SLAVE2=django_database
-      - DB_USER_SLAVE2=django_user
-      - DB_PASSWORD_SLAVE2=123456aA@
-    env_file:
-      - .env
-    working_dir: /home/django
-    entrypoint: /entrypoint.sh
-    command: runserver
-    restart: always
-    depends_on:
-      - 'postgresql-master'
-      - 'postgresql-slave1'
-      - 'postgresql-slave2'
-    ports:
-      - 8000:8000
-    networks:
-      - default
+  #     - DB_HOST_SLAVE2=postgresql-slave2
+  #     - DB_PORT_SLAVE2=5432
+  #     - DB_NAME_SLAVE2=django_database
+  #     - DB_USER_SLAVE2=django_user
+  #     - DB_PASSWORD_SLAVE2=123456aA@
+  #   env_file:
+  #     - .env
+  #   working_dir: /home/django
+  #   entrypoint: /entrypoint.sh
+  #   command: runserver
+  #   restart: always
+  #   depends_on:
+  #     - 'postgresql-master'
+  #     - 'postgresql-slave1'
+  #     - 'postgresql-slave2'
+  #   ports:
+  #     - 8000:8000
+  #   networks:
+  #     - default
 
 
 networks:

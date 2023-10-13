@@ -2,7 +2,7 @@ import random
  
 class MasterSlaveRouter(object):
     
-      route_app_labels = {'defautl', 'slave1', 'slave2'}
+      route_app_labels = {'users', 'restaurant'}
 
       def db_for_read(self, model, **hints):
             """
@@ -18,7 +18,7 @@ class MasterSlaveRouter(object):
             Writes always go to defautl.
             """
             if model._meta.app_label in self.route_app_labels:
-                  return "defautl"
+                  return 'default'
             return None
             # return 'defautl'
       
@@ -40,3 +40,5 @@ class MasterSlaveRouter(object):
             All non-auth models end up in this pool.
             """
             return True
+      
+      
