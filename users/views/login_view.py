@@ -2,7 +2,8 @@ from typing import Any
 from django.shortcuts import render , HttpResponse
 from django.views.generic import TemplateView
 from django.views import View
-from users.forms.login_form import LoginForm
+from users.forms.login_form import LoginForm 
+from users.forms.register_form import RegisterForm
 from users.services.user_services import UserService
 
 class LoginView(TemplateView):
@@ -21,6 +22,7 @@ class LoginView(TemplateView):
                   email = form.cleaned_data.get('EMAIL')
                   password = form.cleaned_data.get('PASSWORD')
                   user = auth.login(email, password)
+                  request.session['user'] = user
                   if user:
                         result = user.get_info()
                         if result['role'] == 'CONSUMER':
@@ -42,4 +44,17 @@ class LogoutView(TemplateView):
       def get(self, request, *args, **kwargs):
             auth = UserService(request)
             auth.logout()
+            request.session['user'] = False
             return HttpResponse("Login out")
+
+class RegisterView(TemplateView):
+
+      def __init__(self, **kwargs: Any) -> None:
+            super().__init__(**kwargs)
+            self.params = {
+                  "singup_form": RegisterForm(),
+            }
+
+      def get(self, request, *args, **kwargs):
+            return render(request, "./register.html", context=self.params)
+
